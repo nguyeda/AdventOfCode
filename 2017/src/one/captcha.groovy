@@ -1,16 +1,26 @@
-static int captcha(String input) {
+package one
+
+static int captcha(String input, int compareToIndex = 1) {
     def sum = 0
     List<Integer> digits = input.chars.collect { Integer.parseUnsignedInt(it as String) }
     digits.eachWithIndex { current, index ->
-        def next = (index == digits.size() - 1) ? digits.first() : digits.get(index + 1)
-        //println "current: $current, next: $next, currentSum: $sum"
-        sum += (current == next ? current : 0)
+        def leftOvers = digits.size() - index
+        def nextIndex = leftOvers > compareToIndex ? index + compareToIndex : compareToIndex - leftOvers
+        // println "index: $index, nextIndex: $nextIndex, currentSum: $sum"
+        sum += (current == digits.get(nextIndex) ? current : 0)
     }
     return sum
 }
 
 static int calc(String input, Integer expected = null) {
-    def c = captcha(input)
+    def c = captcha(input, 1)
+    println "captcha for $input: $c" + ((expected == null) ? '' : " (expected: $expected)")
+    return c
+}
+
+static int calc2(String input, Integer expected = null) {
+    int n = input.length() / 2
+    def c = captcha(input, n)
     println "captcha for $input: $c" + ((expected == null) ? '' : " (expected: $expected)")
     return c
 }
@@ -42,3 +52,10 @@ calc('1111', 4)
 calc('1234', 0)
 calc('91212129', 9)
 calc(myInput)
+
+calc2('1212', 6)
+calc2('1221', 0)
+calc2('123425', 4)
+calc2('123123', 12)
+calc2('12131415', 4)
+calc2(myInput)
