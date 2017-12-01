@@ -7,7 +7,7 @@ static int captcha(String input) {
   input.chars.collect()
     .indices
     .findAll { input[it] == input[(it + delta) % inputLength]}
-    .sum { int it -> Integer.valueOf(input[it]) } as int
+    .sum { int it -> input[it] as int } as int
 }
 
 def input = new File('input.txt').text.trim()
