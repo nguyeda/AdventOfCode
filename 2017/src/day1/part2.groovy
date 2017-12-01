@@ -1,16 +1,15 @@
 package day1
 
-static int captcha(String input, int compareToIndex) {
-  def sum = 0
-  List<Integer> digits = input.chars.collect { Integer.parseUnsignedInt(it as String) }
-  digits.eachWithIndex { current, index ->
-    def leftOvers = digits.size() - index
-    def nextIndex = leftOvers > compareToIndex ? index + compareToIndex : compareToIndex - leftOvers
-    // println "index: $index, nextIndex: $nextIndex, currentSum: $sum"
-    sum += (current == digits.get(nextIndex) ? current : 0)
-  }
-  return sum
+static int captcha(String input) {
+  int delta = input.length() / 2
+  int inputLength = input.length()
+
+  input.chars.collect()
+    .indices
+    .findAll { input[it] == input[(it + delta) % inputLength]}
+    .sum { int it -> Integer.valueOf(input[it]) } as int
 }
 
 def input = new File('input.txt').text.trim()
-println captcha(input, (input.length() / 2) as int)
+println captcha(input)
+

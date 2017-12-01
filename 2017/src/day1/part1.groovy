@@ -1,14 +1,11 @@
 package day1
 
 static int captcha(String input) {
-  def sum = 0
-  List<Integer> digits = input.chars.collect { Integer.parseUnsignedInt(it as String) }
-  digits.eachWithIndex { current, index ->
-    def next = (index == digits.size() - 1) ? digits.first() : digits.get(index + 1)
-    //println "current: $current, next: $next, currentSum: $sum"
-    sum += (current == next ? current : 0)
-  }
-  return sum
+  int inputLength = input.length()
+  input.chars.collect()
+    .indices
+    .findAll { input[it] == input[(it + 1) % inputLength]}
+    .sum { int it -> Integer.valueOf(input[it]) } as int
 }
 
 def input = new File('input.txt').text.trim()
