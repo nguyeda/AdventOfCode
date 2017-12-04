@@ -1,12 +1,19 @@
 package day2
 
+def pair = { List<Integer> row ->
+  def r = row.collect()
+  List<List<Integer>> p = []
+  while (!r.empty) {
+    p.addAll([r.pop(), r].combinations())
+  }
+  p*.sort(true)
+}
+
 def checksum = { List<List<Integer>> input ->
   input.sum { List<Integer> row ->
-    row.subsequences()
-      .findAll { it.size() == 2 }
-      *.sort()
+    pair(row)
       .find { it.last() % it.first() == 0 }
-      .inject { first, last -> last/first }
+      .inject { first, last -> last / first }
   }
 }
 
