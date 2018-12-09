@@ -6,21 +6,8 @@ import kotlin.test.assertEquals
 
 data class Claim(val id: Int, val x: Int, val y: Int, val w: Int, val h: Int) {
 
-  val maxX = x + w - 1
-  val maxY = y + h - 1
-  val rangeX = x..maxX
-  val rangeY = y..maxY
-
-  fun overlaps(other: Claim): List<Pair<Int, Int>> {
-    return rangeX
-      .intersect(other.rangeX)
-      .map { oX ->
-        rangeY.intersect(other.rangeY).map { oY ->
-          oX to oY
-        }
-      }
-      .flatten()
-  }
+  val rangeX = x..(x + w - 1)
+  val rangeY = y..(y + h - 1)
 
   companion object {
     val claimRegex = "#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)".toRegex()
@@ -43,18 +30,11 @@ fun main(vararg args: String) {
   fun List<String>.solve(): Any {
     return this
       .map { Claim.valueOf(it) }
-      .run {
-        this.mapIndexed { index, claim ->
-          this.drop(index + 1)
-            .fold(mutableListOf<Pair<Int, Int>>()) { overlaps, other ->
-              overlaps.addAll(claim.overlaps(other))
-              overlaps
-            }
-        }
-      }
+      .map { claim -> claim.rangeX.map { rx -> claim.rangeY.map { ry -> rx to ry }}.flatten() }
       .flatten()
-      .toHashSet()
-      .size
+      .groupingBy { it }
+      .eachCount()
+      .count { it.value > 1 }
   }
 
   assertEquals(4, listOf("#1 @ 1,3: 4x4","#2 @ 3,1: 4x4","#3 @ 5,5: 2x2").solve())
@@ -62,7 +42,7 @@ fun main(vararg args: String) {
 
   val start = Date()
   val result = File("input.txt").readLines().solve()
-  val time = Date().time - start.time;
+  val time = Date().time - start.time
 
   println("----")
   println("result: $result")
