@@ -1,0 +1,23 @@
+{
+  "include": ["./src/**/*"],
+  "exclude": ["**/node_modules/**/*"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "ES2017",
+    "sourceMap": true,
+    "outDir": "./out/dist",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "alwaysStrict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@utils": ["src/_utils"],
+      "@utils/*": ["src/_utils/*"]
+    }
+  }
+}
