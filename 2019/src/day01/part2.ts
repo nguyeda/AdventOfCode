@@ -1,11 +1,12 @@
-import { __, add, compose, F, gt, ifElse, map, reduce, unfold } from 'ramda';
+import { add, compose, map, reduce, tail, unfold } from 'ramda';
 import { readLines } from '../_utils';
 
 import { computeFuelForMass } from './part1';
 
 export const computeTotalFuelForMass: (mass: number) => number = compose(
   reduce<number, number>(add, 0),
-  unfold(ifElse(gt(__,0), compose(n => [n, n], computeFuelForMass), F))
+  tail,
+  unfold((m: number) => m <= 0 ? false : [m, computeFuelForMass(m)]),
 );
 
 export const computeFuelForMasses: (masses: number[]) => number = compose(
