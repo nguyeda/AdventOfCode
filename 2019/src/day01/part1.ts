@@ -13,8 +13,10 @@ export const computeFuelForMasses: (masses: number[]) => number = compose(
   map(computeFuelForMass),
 );
 
-export const computeFuelForMassesFromFile: (path: string) => number = compose(
+const computeFuelForMassesFromFile: (path: string) => number = compose(
   computeFuelForMasses,
   map(it => +it),
   readLines,
 );
+
+export default computeFuelForMassesFromFile;

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --inspect --respawn",
+    "start": "ts-node-dev --inspect --respawn ./src/index.ts",
     "lint": "tslint 'src/**/*.ts?(x)'",
     "lint:fix": "yarn lint --fix"
   },
