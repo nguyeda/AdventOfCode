@@ -7,3 +7,7 @@ input*.txt
 
 # Node
 node_modules
+
+# Python
+venv
+__pycache__
