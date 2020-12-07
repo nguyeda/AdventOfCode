@@ -4,8 +4,9 @@ import re
 
 policy_format = re.compile(r"(\d+)-(\d+) ([a-z]): ([a-z]+)")
 
+
 def parse_entry(entry):
-    pos1, pos2, char, passwd = [match for match in policy_format.split(entry) if match != '']
+    pos1, pos2, char, passwd = [match for match in policy_format.split(entry) if match != ""]
     return int(pos1), int(pos2), char, passwd
 
 
