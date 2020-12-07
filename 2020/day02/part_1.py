@@ -4,14 +4,15 @@ import re
 
 policy_format = re.compile(r"(\d+)-(\d+) ([a-z]): ([a-z]+)")
 
+
 def parse_entry(entry):
-    min_occurrences, max_occurrences, char, passwd = [match for match in policy_format.split(entry) if match != '']
+    min_occurrences, max_occurrences, char, passwd = [match for match in policy_format.split(entry) if match != ""]
     return int(min_occurrences), int(max_occurrences), char, passwd
 
 
 def is_valid(entry):
-    max_occurrences, max_occurrences, char, passwd = parse_entry(entry)
-    return max_occurrences <= passwd.count(char) <= max_occurrences
+    min_occurrences, max_occurrences, char, passwd = parse_entry(entry)
+    return min_occurrences <= passwd.count(char) <= max_occurrences
 
 
 def part_1(entries: typing.List[str]) -> int:
