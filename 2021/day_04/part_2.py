@@ -1,21 +1,22 @@
 import typing
 from dataclasses import dataclass
 from functools import reduce
-from itertools import product
 
 
 def main(lines: typing.List[str]) -> int:
     drawn_numbers_sequence = [int(it) for it in lines[0].split(",")]
     boards = _parse_boards(lines[2:])
 
-    # order of the cartesian product matters!
-    for drawn_number, board in product(drawn_numbers_sequence, boards):
-        board.mark_number(drawn_number)
-        if board.is_chicken_dinner():
-            return board.total_score(drawn_number)
+    remaining_boards = list(boards[0:])
+    for drawn_number in drawn_numbers_sequence:
+        for board in remaining_boards[0:]:
+            board.mark_number(drawn_number)
+            if board.is_chicken_dinner():
+                remaining_boards.remove(board)
+                if len(remaining_boards) == 0:
+                    return board.total_score(drawn_number)
 
     return -1
-
 
 @dataclass
 class Board:
@@ -85,7 +86,7 @@ if __name__ == "__main__":
         "22 11 13  6  5",
         "2  0 12  3  7",
     ]
-    assert main(test_entries) == 4512
+    assert main(test_entries) == 1924
 
     with open("./input.txt", "r") as f:
         lines = f.read().splitlines()
