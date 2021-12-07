@@ -1,7 +1,7 @@
 import typing
 from collections import Counter
 from functools import reduce
-
+from statistics import median
 
 def get_fuel_consumption(target_position: int, population_by_position: Counter) -> int:
     def reducer(acc, current) -> int:
@@ -12,12 +12,8 @@ def get_fuel_consumption(target_position: int, population_by_position: Counter) 
 
 
 def main(lines: typing.List[int]) -> int:
-    positions_population = Counter(lines)
-    # TODO: do not brute force to calculate the target position
-    return sorted([
-        get_fuel_consumption(to_pos, positions_population)
-        for to_pos in range(min(lines) + 1, max(lines))
-    ]).pop(0)
+    target_position = round(median(lines))
+    return get_fuel_consumption(target_position, Counter(lines))
 
 
 if __name__ == "__main__":
